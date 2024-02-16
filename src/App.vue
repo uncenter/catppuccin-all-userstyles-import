@@ -19,9 +19,9 @@ const ACCENTS = [
 	"Lavender",
 	"Gray",
 ];
-const darkFlavor = useStorage("darkFlavor", "mocha");
-const lightFlavor = useStorage("lightFlavor", "latte");
-const accentColor = useStorage("accentColor", "blue");
+const darkFlavor = useStorage("darkFlavor", "Mocha");
+const lightFlavor = useStorage("lightFlavor", "Latte");
+const accentColor = useStorage("accentColor", "Sapphire");
 
 type UserstylesExport = Userstyle[];
 
@@ -173,19 +173,25 @@ if (import.meta.hot) {
 				<div flex="~ col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
 					<select border="~ base rounded" v-model="lightFlavor" name="lightFlavor" id="lightFlavor" p2>
-						<option v-for="flavor in FLAVORS">{{ flavor }}</option>
+						<option v-for="flavor in FLAVORS">
+							{{ flavor }}
+						</option>
 					</select>
 				</div>
 				<div flex="~ col gap-2">
 					<label for="darkFlavor">Dark Flavor</label>
 					<select border="~ base rounded" v-model="darkFlavor" name="darkFlavor" id="darkFlavor" p2>
-						<option v-for="flavor in FLAVORS">{{ flavor }}</option>
+						<option v-for="flavor in FLAVORS">
+							{{ flavor }}
+						</option>
 					</select>
 				</div>
 				<div flex="~ col gap-2">
 					<label for="accent">Accent Color</label>
 					<select border="~ base rounded" v-model="accentColor" name="accentColor" id="accentColor" p2>
-						<option v-for="accent in ACCENTS">{{ accent }}</option>
+						<option v-for="accent in ACCENTS">
+							{{ accent }}
+						</option>
 					</select>
 				</div>
 			</div>
