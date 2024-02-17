@@ -134,6 +134,7 @@ onMounted(async () => {
 	original = (await import('../import.json').then(
 		(m) => m.default,
 	)) as UserstylesExport;
+	generateImportFile();
 });
 
 watch(
