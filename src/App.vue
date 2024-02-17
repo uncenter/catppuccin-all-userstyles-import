@@ -1,5 +1,21 @@
 <script setup lang="ts">
-const isDark = useDark();
+import { useColorMode, useCycleList } from "@vueuse/core";
+
+let mode = useColorMode({
+	attribute: "theme",
+	modes: {
+		latte: "latte",
+		frappe: "frappe",
+		macchiato: "macchiato",
+		mocha: "mocha",
+	},
+});
+
+const { state, next } = useCycleList(
+	["latte", "frappe", "macchiato", "mocha"],
+	{ initialValue: mode }
+);
+watchEffect(() => (mode.value = state.value as any));
 
 const FLAVORS = ["Latte", "Frappe", "Macchiato", "Mocha"];
 const ACCENTS = [
@@ -112,7 +128,7 @@ function generateImportFile() {
 					lightFlavor.value.toLowerCase();
 			}
 			return userstyle;
-		}),
+		})
 	);
 }
 
@@ -134,17 +150,17 @@ function download() {
 
 onMounted(async () => {
 	original = (await import("../import.json").then(
-		(m) => m.default,
+		(m) => m.default
 	)) as UserstylesExport;
 });
 
 watch(
-	[lightFlavor, darkFlavor, accentColor, isDark],
+	[lightFlavor, darkFlavor, accentColor],
 	(n, o) => {
 		const changed = o !== n;
 		if (changed) generateImportFile();
 	},
-	{ immediate: true },
+	{ immediate: true }
 );
 
 if (import.meta.hot) {
@@ -159,12 +175,17 @@ if (import.meta.hot) {
 		<header flex="~ justify-between">
 			<h1 text-2xl>All Userstyles Import Generator</h1>
 			<div flex="~ row gap-2">
-				<a border="~ base rounded" p2 hover="bg-active"
-					href="https://github.com/uncenter/ctp-userstyles-all-userstyles-import" target="_blank">
+				<a
+					border="~ surface0 rounded"
+					p2
+					hover="bg-active"
+					href="https://github.com/uncenter/ctp-userstyles-all-userstyles-import"
+					target="_blank"
+				>
 					<div i-carbon-logo-github />
 				</a>
-				<button border="~ base rounded" p2 hover="bg-active" @click="isDark = !isDark">
-					<div dark:i-carbon-moon i-carbon-sun />
+				<button @click="next()">
+					<span class="ml-2 capitalize">{{ state }}</span>
 				</button>
 			</div>
 		</header>
@@ -172,7 +193,14 @@ if (import.meta.hot) {
 			<div flex="~ col md:row gap-2">
 				<div flex="~ col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
-					<select border="~ base rounded" v-model="lightFlavor" name="lightFlavor" id="lightFlavor" p2>
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="lightFlavor"
+						name="lightFlavor"
+						id="lightFlavor"
+					>
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
@@ -180,7 +208,14 @@ if (import.meta.hot) {
 				</div>
 				<div flex="~ col gap-2">
 					<label for="darkFlavor">Dark Flavor</label>
-					<select border="~ base rounded" v-model="darkFlavor" name="darkFlavor" id="darkFlavor" p2>
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="darkFlavor"
+						name="darkFlavor"
+						id="darkFlavor"
+					>
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
@@ -188,15 +223,31 @@ if (import.meta.hot) {
 				</div>
 				<div flex="~ col gap-2">
 					<label for="accent">Accent Color</label>
-					<select border="~ base rounded" v-model="accentColor" name="accentColor" id="accentColor" p2>
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="accentColor"
+						name="accentColor"
+						id="accentColor"
+					>
 						<option v-for="accent in ACCENTS">
 							{{ accent }}
 						</option>
 					</select>
 				</div>
 			</div>
-			<button border="~ base rounded" flex="~ row gap-2" :class="isDark ? 'bg-green-700' : 'bg-green-300'" px-4 py-2
-				justify-center items-center title="Download" @click="download()">
+			<button
+				border-rounded
+				flex="~ row gap-2 self-end"
+				bg-green
+				text-base
+				p2
+				justify-center
+				items-center
+				title="Download"
+				@click="download()"
+			>
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'"></span>
 				<div v-if="downloaded" i-carbon-checkmark />
 				<div v-else i-carbon-download />
@@ -205,12 +256,4 @@ if (import.meta.hot) {
 	</div>
 </template>
 
-<style>
-:root {
-	color-scheme: light;
-}
-
-:root.dark {
-	color-scheme: dark;
-}
-</style>
+<style></style>

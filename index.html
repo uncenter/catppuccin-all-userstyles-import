@@ -1,33 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      All Userstyles Import Generator &middot; Catppuccin Userstyles
-    </title>
-    <meta
-      name="description"
-      content="Generate a customized all userstyles import file from catppuccin/userstyles."
-    />
-    <link rel="icon" href="favicon.svg" />
-  </head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			All Userstyles Import Generator &middot; Catppuccin Userstyles
+		</title>
+		<meta
+			name="description"
+			content="Generate a customized all userstyles import file from catppuccin/userstyles."
+		/>
+		<link rel="icon" href="favicon.svg" />
+	</head>
 
-  <body class="font-sans dark:text-white dark:bg-hex-121212">
-    <div id="app"></div>
-    <noscript>
-      <div>Please enable JavaScript to use this application.</div>
-    </noscript>
-    <script>
-      (function () {
-        const prefersDark =
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const setting = localStorage.getItem("color-schema") || "auto";
-        if (setting === "dark" || (prefersDark && setting !== "light"))
-          document.documentElement.classList.toggle("dark", true);
-      })();
-    </script>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+	<body class="font-sans bg-base text-text">
+		<div id="app"></div>
+		<noscript>
+			<div>Please enable JavaScript to use this application.</div>
+		</noscript>
+		<script>
+			(function () {
+				const prefersDark =
+					window.matchMedia &&
+					window.matchMedia("(prefers-color-scheme: dark)").matches;
+				const setting = localStorage.getItem("color-schema") || "auto";
+				if (setting === "dark" || (prefersDark && setting !== "light"))
+					document.documentElement.classList.toggle("dark", true);
+			})();
+		</script>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
 </html>
