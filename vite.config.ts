@@ -1,7 +1,7 @@
-/// <reference types="vitest" />
+import { defineConfig } from 'vite';
 
 import path from 'node:path';
-import { defineConfig } from 'vite';
+
 import Vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -40,7 +40,6 @@ export default defineConfig({
 				'@vueuse/core',
 				VueRouterAutoImports,
 				{
-					// add any other imports you were relying on
 					'vue-router/auto': ['useLink'],
 				},
 			],
@@ -55,7 +54,6 @@ export default defineConfig({
 		}),
 
 		// https://github.com/antfu/unocss
-		// see uno.config.ts for config
 		UnoCSS(),
 	],
 });

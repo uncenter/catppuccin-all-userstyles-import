@@ -1,40 +1,22 @@
 <script setup lang="ts">
-import { useColorMode, useCycleList } from '@vueuse/core';
+import { flavors } from '@catppuccin/palette';
+
+const capitalize = (string: string) =>
+	string[0].toUpperCase() + string.slice(1);
+
+const FLAVORS = Object.keys(flavors).map(capitalize);
+const ACCENTS = Object.keys(flavors.latte.colors).map(capitalize);
 
 let mode = useColorMode({
 	attribute: 'theme',
-	modes: {
-		latte: 'latte',
-		frappe: 'frappe',
-		macchiato: 'macchiato',
-		mocha: 'mocha',
-	},
+	modes: Object.fromEntries(FLAVORS.map((flavor) => [flavor, flavor])),
 });
-
 const { state, next } = useCycleList(
-	['latte', 'frappe', 'macchiato', 'mocha'],
+	FLAVORS.map((flavor) => flavor.toLowerCase()),
 	{ initialValue: mode },
 );
 watchEffect(() => (mode.value = state.value as any));
 
-const FLAVORS = ['Latte', 'Frappe', 'Macchiato', 'Mocha'];
-const ACCENTS = [
-	'Rosewater',
-	'Flamingo',
-	'Pink',
-	'Mauve',
-	'Red',
-	'Maroon',
-	'Peach',
-	'Yellow',
-	'Green',
-	'Teal',
-	'Blue',
-	'Sapphire',
-	'Sky',
-	'Lavender',
-	'Gray',
-];
 const darkFlavor = useStorage('darkFlavor', 'Mocha');
 const lightFlavor = useStorage('lightFlavor', 'Latte');
 const accentColor = useStorage('accentColor', 'Sapphire');
