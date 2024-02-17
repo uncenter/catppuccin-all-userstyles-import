@@ -100,15 +100,21 @@ function generateImportFile() {
 			if (userstyle.usercssData.vars.accentColor)
 				userstyle.usercssData.vars.accentColor.value =
 					accentColor.value.toLowerCase();
-			if (
-				userstyle.usercssData.vars.darkFlavor &&
-				userstyle.usercssData.vars.lightFlavor
-			) {
+
+			if (userstyle.usercssData.vars.darkFlavor)
 				userstyle.usercssData.vars.darkFlavor.value =
 					darkFlavor.value.toLowerCase();
+			if (userstyle.usercssData.vars.lightFlavor)
 				userstyle.usercssData.vars.lightFlavor.value =
 					lightFlavor.value.toLowerCase();
-			}
+
+			if (userstyle.usercssData.vars.darkFlavour)
+				userstyle.usercssData.vars.darkFlavour.value =
+					darkFlavor.value.toLowerCase();
+			if (userstyle.usercssData.vars.lightFlavour)
+				userstyle.usercssData.vars.lightFlavour.value =
+					lightFlavor.value.toLowerCase();
+
 			return userstyle;
 		}),
 	);
