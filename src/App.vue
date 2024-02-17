@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { useColorMode, useCycleList } from "@vueuse/core";
+import { useColorMode, useCycleList } from '@vueuse/core';
 
 let mode = useColorMode({
-	attribute: "theme",
+	attribute: 'theme',
 	modes: {
-		latte: "latte",
-		frappe: "frappe",
-		macchiato: "macchiato",
-		mocha: "mocha",
+		latte: 'latte',
+		frappe: 'frappe',
+		macchiato: 'macchiato',
+		mocha: 'mocha',
 	},
 });
 
 const { state, next } = useCycleList(
-	["latte", "frappe", "macchiato", "mocha"],
-	{ initialValue: mode }
+	['latte', 'frappe', 'macchiato', 'mocha'],
+	{ initialValue: mode },
 );
 watchEffect(() => (mode.value = state.value as any));
 
-const FLAVORS = ["Latte", "Frappe", "Macchiato", "Mocha"];
+const FLAVORS = ['Latte', 'Frappe', 'Macchiato', 'Mocha'];
 const ACCENTS = [
-	"Rosewater",
-	"Flamingo",
-	"Pink",
-	"Mauve",
-	"Red",
-	"Maroon",
-	"Peach",
-	"Yellow",
-	"Green",
-	"Teal",
-	"Blue",
-	"Sapphire",
-	"Sky",
-	"Lavender",
-	"Gray",
+	'Rosewater',
+	'Flamingo',
+	'Pink',
+	'Mauve',
+	'Red',
+	'Maroon',
+	'Peach',
+	'Yellow',
+	'Green',
+	'Teal',
+	'Blue',
+	'Sapphire',
+	'Sky',
+	'Lavender',
+	'Gray',
 ];
-const darkFlavor = useStorage("darkFlavor", "Mocha");
-const lightFlavor = useStorage("lightFlavor", "Latte");
-const accentColor = useStorage("accentColor", "Sapphire");
+const darkFlavor = useStorage('darkFlavor', 'Mocha');
+const lightFlavor = useStorage('lightFlavor', 'Latte');
+const accentColor = useStorage('accentColor', 'Sapphire');
 
 type UserstylesExport = Userstyle[];
 
@@ -128,18 +128,18 @@ function generateImportFile() {
 					lightFlavor.value.toLowerCase();
 			}
 			return userstyle;
-		})
+		}),
 	);
 }
 
 function download() {
 	const blob = new Blob([output.value], {
-		type: "application/json",
+		type: 'application/json',
 	});
 	const href = URL.createObjectURL(blob);
-	const link = document.createElement("a");
+	const link = document.createElement('a');
 	link.href = href;
-	link.download = "import.json";
+	link.download = 'import.json';
 	link.click();
 	URL.revokeObjectURL(href);
 	downloaded.value = true;
@@ -149,8 +149,8 @@ function download() {
 }
 
 onMounted(async () => {
-	original = (await import("../import.json").then(
-		(m) => m.default
+	original = (await import('../import.json').then(
+		(m) => m.default,
 	)) as UserstylesExport;
 });
 
@@ -160,7 +160,7 @@ watch(
 		const changed = o !== n;
 		if (changed) generateImportFile();
 	},
-	{ immediate: true }
+	{ immediate: true },
 );
 
 if (import.meta.hot) {

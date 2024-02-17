@@ -5,9 +5,9 @@ import {
 	presetUno,
 	presetWebFonts,
 	transformerDirectives,
-} from "unocss";
+} from 'unocss';
 
-import { flavors, flavorEntries } from "@catppuccin/palette";
+import { flavors, flavorEntries } from '@catppuccin/palette';
 
 const CTP_PREFIX = false;
 const CTP_SELECTOR = (flavor: string) => `[theme="${flavor}"]`;
@@ -17,9 +17,9 @@ export default defineConfig({
 		colors: {
 			...Object.fromEntries(
 				flavors.latte.colorEntries.map(([name]) => [
-					`${CTP_PREFIX ? CTP_PREFIX + "-" : ""}${name}`,
+					`${CTP_PREFIX ? CTP_PREFIX + '-' : ''}${name}`,
 					`var(--ctp-${name})`,
-				])
+				]),
 			),
 		},
 	},
@@ -30,13 +30,13 @@ export default defineConfig({
 					.map(
 						([flavor, { colors, dark }]) => `
 :root${CTP_SELECTOR(flavor)} {
-    ${dark ? "color-scheme: dark;" : "color-scheme: light;"}
+    ${dark ? 'color-scheme: dark;' : 'color-scheme: light;'}
     ${Object.entries(colors)
 			.map(([name, { hex }]) => `--ctp-${name}: ${hex};`)
-			.join("\n")};
-}`
+			.join('\n')};
+}`,
 					)
-					.join("\n");
+					.join('\n');
 			},
 		},
 	],
@@ -49,9 +49,9 @@ export default defineConfig({
 		}),
 		presetWebFonts({
 			fonts: {
-				sans: "DM Sans",
-				serif: "DM Serif Display",
-				mono: "DM Mono",
+				sans: 'DM Sans',
+				serif: 'DM Serif Display',
+				mono: 'DM Mono',
 			},
 		}),
 	],

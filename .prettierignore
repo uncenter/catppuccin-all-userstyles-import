@@ -1,1 +1,3 @@
 pnpm-lock.yaml
+*.d.ts
+import.json

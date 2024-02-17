@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -22,10 +22,10 @@
 			(function () {
 				const prefersDark =
 					window.matchMedia &&
-					window.matchMedia("(prefers-color-scheme: dark)").matches;
-				const setting = localStorage.getItem("color-schema") || "auto";
-				if (setting === "dark" || (prefersDark && setting !== "light"))
-					document.documentElement.classList.toggle("dark", true);
+					window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const setting = localStorage.getItem('color-schema') || 'auto';
+				if (setting === 'dark' || (prefersDark && setting !== 'light'))
+					document.documentElement.classList.toggle('dark', true);
 			})();
 		</script>
 		<script type="module" src="/src/main.ts"></script>
