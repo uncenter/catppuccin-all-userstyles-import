@@ -13,7 +13,7 @@ jobs:
         id: get-asset-id
         with:
           script: |
-            const release = await octokit.rest.repos.getReleaseByTag({
+            const release = await github.rest.repos.getReleaseByTag({
               owner: 'catppuccin',
               repo: 'userstyles',
               tag: 'all-userstyles-export',
