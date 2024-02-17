@@ -27,7 +27,7 @@ jobs:
       - run: |
           curl -v -L -H 'Accept: application/octet-stream' https://api.github.com/repos/catppuccin/userstyles/releases/assets/$ASSET_ID -o import.json
         env:
-          ASSET_ID: ${{ steps.outputs.get-asset-id.outputs.result }}
+          ASSET_ID: ${{ steps.get-asset-id.outputs.result }}
 
       - uses: EndBug/add-and-commit@v9
         with:
