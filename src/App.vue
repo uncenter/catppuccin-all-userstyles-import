@@ -174,18 +174,26 @@ if (import.meta.hot) {
 	<div h-100vh w-full px4 pt-4>
 		<header flex="~ justify-between">
 			<h1 text-2xl>All Userstyles Import Generator</h1>
-			<div flex="~ row gap-2">
+			<div flex="~ row gap-2" class="h-[min-content]">
 				<a
 					border="~ surface0 rounded"
+					flex
+					h-auto
 					p2
-					hover="bg-active"
+					hover="bg-mantle"
 					href="https://github.com/uncenter/ctp-userstyles-all-userstyles-import"
 					target="_blank"
 				>
-					<div i-carbon-logo-github />
+					<div self-center i-carbon-logo-github />
 				</a>
-				<button @click="next()">
-					<span class="ml-2 capitalize">{{ state }}</span>
+				<button
+					border="~ surface0 rounded"
+					flex
+					p2
+					hover="bg-mantle"
+					@click="next()"
+				>
+					<span class="capitalize">{{ state }}</span>
 				</button>
 			</div>
 		</header>
@@ -239,7 +247,7 @@ if (import.meta.hot) {
 			</div>
 			<button
 				border-rounded
-				flex="~ row gap-2 self-end"
+				flex="~ row gap-2 self-center md:self-end"
 				bg-green
 				text-base
 				p2
