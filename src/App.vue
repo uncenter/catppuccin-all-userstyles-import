@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { flavors } from '@catppuccin/palette';
-
-const capitalize = (string: string) =>
-	string[0].toUpperCase() + string.slice(1);
-
-const FLAVORS = Object.keys(flavors).map(capitalize);
-const ACCENTS = Object.keys(flavors.latte.colors).map(capitalize);
-
+const FLAVORS = ['Latte', 'Frappe', 'Macchiato', 'Mocha'];
+const ACCENTS = [
+	'Rosewater',
+	'Flamingo',
+	'Pink',
+	'Mauve',
+	'Red',
+	'Maroon',
+	'Peach',
+	'Yellow',
+	'Green',
+	'Teal',
+	'Blue',
+	'Sapphire',
+	'Sky',
+	'Lavender',
+	'Gray',
+];
 let mode = useColorMode({
 	attribute: 'theme',
-	modes: Object.fromEntries(FLAVORS.map((flavor) => [flavor, flavor])),
+	modes: Object.fromEntries(
+		FLAVORS.map((flavor) => [flavor.toLowerCase(), flavor.toLowerCase()]),
+	),
 });
 const { state, next } = useCycleList(
 	FLAVORS.map((flavor) => flavor.toLowerCase()),
@@ -51,8 +63,6 @@ type UsercssData = {
 type Vars = {
 	flavor?: Flavor;
 	accentColor?: AccentColor;
-	lightFlavour?: Flavor;
-	darkFlavour?: Flavor;
 	lightFlavor?: Flavor;
 	darkFlavor?: Flavor;
 };
@@ -87,7 +97,7 @@ type Settings = {
 	patchCsp: boolean;
 };
 
-let original = null as null | UserstylesExport;
+let original: null | UserstylesExport = null;
 const output = ref();
 
 const downloaded = ref(false);
@@ -100,21 +110,12 @@ function generateImportFile() {
 			if (userstyle.usercssData.vars.accentColor)
 				userstyle.usercssData.vars.accentColor.value =
 					accentColor.value.toLowerCase();
-
 			if (userstyle.usercssData.vars.darkFlavor)
 				userstyle.usercssData.vars.darkFlavor.value =
 					darkFlavor.value.toLowerCase();
 			if (userstyle.usercssData.vars.lightFlavor)
 				userstyle.usercssData.vars.lightFlavor.value =
 					lightFlavor.value.toLowerCase();
-
-			if (userstyle.usercssData.vars.darkFlavour)
-				userstyle.usercssData.vars.darkFlavour.value =
-					darkFlavor.value.toLowerCase();
-			if (userstyle.usercssData.vars.lightFlavour)
-				userstyle.usercssData.vars.lightFlavour.value =
-					lightFlavor.value.toLowerCase();
-
 			return userstyle;
 		}),
 	);
@@ -160,44 +161,25 @@ if (import.meta.hot) {
 </script>
 
 <template>
-	<div h-100vh w-full px4 pt-4>
+	<div h-100vh w-full flex="~ col" px4 pt-4 text-lg>
 		<header flex="~ justify-between">
-			<h1 text-2xl>Catppuccin All Userstyles Import Generator</h1>
+			<h1 text-3xl>Catppuccin All Userstyles Import Generator</h1>
 			<div flex="~ row gap-2" class="h-[min-content]">
-				<a
-					border="~ surface0 rounded"
-					flex
-					h-auto
-					p2
-					hover="bg-mantle"
-					href="https://github.com/uncenter/catppuccin-all-userstyles-import"
-					target="_blank"
-				>
+				<a border="~ surface0 rounded" flex h-auto p2 hover="bg-mantle"
+					href="https://github.com/uncenter/catppuccin-all-userstyles-import" target="_blank">
 					<div self-center i-carbon-logo-github />
 				</a>
-				<button
-					border="~ surface0 rounded"
-					flex
-					p2
-					hover="bg-mantle"
-					@click="next()"
-				>
+				<button border="~ surface0 rounded" flex p2 hover="bg-mantle" @click="next()">
 					<span class="capitalize">{{ state }}</span>
 				</button>
 			</div>
 		</header>
-		<div flex="~ col md:row gap-6" justify-center items-center p4>
+		<div flex="~ col md:row gap-6" justify-center items-center p4 class="mt-auto mb-[60vh]">
 			<div flex="~ col md:row gap-2">
 				<div flex="~ col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="lightFlavor"
-						name="lightFlavor"
-						id="lightFlavor"
-					>
+					<select border="~ surface0 rounded" bg-base p2 v-model="lightFlavor" name="lightFlavor"
+						id="lightFlavor">
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
@@ -205,14 +187,7 @@ if (import.meta.hot) {
 				</div>
 				<div flex="~ col gap-2">
 					<label for="darkFlavor">Dark Flavor</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="darkFlavor"
-						name="darkFlavor"
-						id="darkFlavor"
-					>
+					<select border="~ surface0 rounded" bg-base p2 v-model="darkFlavor" name="darkFlavor" id="darkFlavor">
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
@@ -220,31 +195,16 @@ if (import.meta.hot) {
 				</div>
 				<div flex="~ col gap-2">
 					<label for="accent">Accent Color</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="accentColor"
-						name="accentColor"
-						id="accentColor"
-					>
+					<select border="~ surface0 rounded" bg-base p2 v-model="accentColor" name="accentColor"
+						id="accentColor">
 						<option v-for="accent in ACCENTS">
 							{{ accent }}
 						</option>
 					</select>
 				</div>
 			</div>
-			<button
-				border-rounded
-				flex="~ row gap-2 self-center md:self-end"
-				bg-green
-				text-base
-				p2
-				justify-center
-				items-center
-				title="Download"
-				@click="download()"
-			>
+			<button border-rounded flex="~ row gap-2 self-center md:self-end" bg-green text-base p2 justify-center
+				items-center title="Download" @click="download()">
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'"></span>
 				<div v-if="downloaded" i-carbon-checkmark />
 				<div v-else i-carbon-download />
