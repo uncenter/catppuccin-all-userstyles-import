@@ -162,7 +162,7 @@ if (import.meta.hot) {
 <template>
 	<div h-100vh w-full px4 pt-4>
 		<header flex="~ justify-between">
-			<h1 text-2xl>All Userstyles Import Generator</h1>
+			<h1 text-2xl>Catppuccin All Userstyles Import Generator</h1>
 			<div flex="~ row gap-2" class="h-[min-content]">
 				<a
 					border="~ surface0 rounded"
@@ -170,7 +170,7 @@ if (import.meta.hot) {
 					h-auto
 					p2
 					hover="bg-mantle"
-					href="https://github.com/uncenter/ctp-userstyles-all-userstyles-import"
+					href="https://github.com/uncenter/catppuccin-all-userstyles-import"
 					target="_blank"
 				>
 					<div self-center i-carbon-logo-github />
