@@ -17,11 +17,14 @@ const ACCENTS = [
 	'Lavender',
 	'Gray',
 ];
+
+const isDark = usePreferredDark();
 let mode = useColorMode({
 	attribute: 'theme',
 	modes: Object.fromEntries(
 		FLAVORS.map((flavor) => [flavor.toLowerCase(), flavor.toLowerCase()]),
 	),
+	initialValue: isDark ? 'mocha' : 'latte',
 });
 const { state, next } = useCycleList(
 	FLAVORS.map((flavor) => flavor.toLowerCase()),
