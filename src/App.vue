@@ -168,21 +168,48 @@ if (import.meta.hot) {
 		<header flex="~ justify-between">
 			<h1 text-3xl>Catppuccin All Userstyles Import Generator</h1>
 			<div flex="~ row gap-2" class="h-[min-content]">
-				<a border="~ surface0 rounded" flex h-auto p2 hover="bg-mantle"
-					href="https://github.com/uncenter/catppuccin-all-userstyles-import" target="_blank">
+				<a
+					border="~ surface0 rounded"
+					flex
+					h-auto
+					p2
+					hover="bg-mantle"
+					aria-label="GitHub repository"
+					href="https://github.com/uncenter/catppuccin-all-userstyles-import"
+					target="_blank"
+				>
 					<div self-center i-carbon-logo-github />
 				</a>
-				<button border="~ surface0 rounded" flex p2 hover="bg-mantle" @click="next()">
+				<button
+					border="~ surface0 rounded"
+					flex
+					p2
+					hover="bg-mantle"
+					:aria-label="'Toggle theme to ' + state"
+					@click="next()"
+				>
 					<span class="capitalize">{{ state }}</span>
 				</button>
 			</div>
 		</header>
-		<div flex="~ col md:row gap-6" justify-center items-center p4 class="mt-auto mb-[60vh]">
+		<div
+			flex="~ col md:row gap-6"
+			justify-center
+			items-center
+			p4
+			class="mt-auto mb-[60vh]"
+		>
 			<div flex="~ col md:row gap-2">
 				<div flex="~ col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
-					<select border="~ surface0 rounded" bg-base p2 v-model="lightFlavor" name="lightFlavor"
-						id="lightFlavor">
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="lightFlavor"
+						name="lightFlavor"
+						id="lightFlavor"
+					>
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
@@ -190,24 +217,46 @@ if (import.meta.hot) {
 				</div>
 				<div flex="~ col gap-2">
 					<label for="darkFlavor">Dark Flavor</label>
-					<select border="~ surface0 rounded" bg-base p2 v-model="darkFlavor" name="darkFlavor" id="darkFlavor">
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="darkFlavor"
+						name="darkFlavor"
+						id="darkFlavor"
+					>
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
 					</select>
 				</div>
 				<div flex="~ col gap-2">
-					<label for="accent">Accent Color</label>
-					<select border="~ surface0 rounded" bg-base p2 v-model="accentColor" name="accentColor"
-						id="accentColor">
+					<label for="accentColor">Accent Color</label>
+					<select
+						border="~ surface0 rounded"
+						bg-base
+						p2
+						v-model="accentColor"
+						name="accentColor"
+						id="accentColor"
+					>
 						<option v-for="accent in ACCENTS">
 							{{ accent }}
 						</option>
 					</select>
 				</div>
 			</div>
-			<button border-rounded flex="~ row gap-2 self-center md:self-end" bg-green text-base p2 justify-center
-				items-center title="Download" @click="download()">
+			<button
+				border-rounded
+				flex="~ row gap-2 self-center md:self-end"
+				bg-green
+				text-base
+				p2
+				justify-center
+				items-center
+				title="Download"
+				@click="download()"
+			>
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'"></span>
 				<div v-if="downloaded" i-carbon-checkmark />
 				<div v-else i-carbon-download />
