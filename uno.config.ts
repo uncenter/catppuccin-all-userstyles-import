@@ -30,8 +30,8 @@ export default defineConfig({
 :root${CTP_SELECTOR(flavor)} {
     ${dark ? 'color-scheme: dark;' : 'color-scheme: light;'}
     ${Object.entries(colors)
-								.map(([name, { hex }]) => `--ctp-${name}: ${hex};`)
-								.join('\n')};
+			.map(([name, { hex }]) => `--ctp-${name}: ${hex};`)
+			.join('\n')};
 }`,
 					)
 					.join('\n');
