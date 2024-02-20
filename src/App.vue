@@ -64,13 +64,13 @@ type UsercssData = {
 };
 
 type Vars = {
-	flavor?: Flavor;
-	accentColor?: AccentColor;
-	lightFlavor?: Flavor;
-	darkFlavor?: Flavor;
+	flavor?: Variable;
+	accentColor?: Variable;
+	lightFlavor?: Variable;
+	darkFlavor?: Variable;
 };
 
-type Flavor = {
+type Variable = {
 	type: string;
 	label: string;
 	name: string;
@@ -83,15 +83,6 @@ type Option = {
 	name: string;
 	label: string;
 	value: string;
-};
-
-type AccentColor = {
-	type: string;
-	label: string;
-	name: string;
-	value: any;
-	default: string;
-	options: Option[];
 };
 
 type Settings = {
@@ -164,82 +155,45 @@ if (import.meta.hot) {
 </script>
 
 <template>
-	<div h-100vh w-full flex="~ col" px4 pt-4 text-lg>
-		<header flex="~ justify-between">
-			<h1 text-3xl>Catppuccin All Userstyles Import Generator</h1>
-			<div flex="~ row gap-2" class="h-[min-content]">
-				<a
-					border="~ surface0 rounded"
-					flex
-					h-auto
-					p2
-					hover="bg-mantle"
-					aria-label="GitHub repository"
-					href="https://github.com/uncenter/catppuccin-all-userstyles-import"
-					target="_blank"
-				>
+	<div class="h-100vh w-full flex flex-col px4 pt4 text-lg">
+		<header class="flex justify-between">
+			<h1 class="text-3xl">Catppuccin All Userstyles Import Generator</h1>
+			<div class="flex flex-row gap-2 h-[min-content]">
+				<a class="border border-surface0 border-rounded flex h-auto p2 hover:bg-mantle"
+					aria-label="GitHub repository" href="https://github.com/uncenter/catppuccin-all-userstyles-import"
+					target="_blank">
 					<div self-center i-carbon-logo-github />
 				</a>
-				<button
-					border="~ surface0 rounded"
-					flex
-					p2
-					hover="bg-mantle"
-					:aria-label="'Toggle theme to ' + state"
-					@click="next()"
-				>
+				<button class="border border-surface0 border-rounded flex p2 hover:bg-mantle"
+					:aria-label="'Toggle theme to ' + state" @click="next()">
 					<span class="capitalize">{{ state }}</span>
 				</button>
 			</div>
 		</header>
-		<div
-			flex="~ col md:row gap-6"
-			justify-center
-			items-center
-			p4
-			class="mt-auto mb-[60vh]"
-		>
-			<div flex="~ col md:row gap-2">
-				<div flex="~ col gap-2">
+		<div class="flex flex-col md:flex-row gap-6 justify-center items-center p4 mt-auto mb-[60vh]">
+			<div class="flex flex-col md:flex-row gap-2">
+				<div class="flex flex-col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="lightFlavor"
-						name="lightFlavor"
-						id="lightFlavor"
-					>
+					<select class="border border-surface0 border-rounded bg-base p2" v-model="lightFlavor"
+						name="lightFlavor" id="lightFlavor">
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
 					</select>
 				</div>
-				<div flex="~ col gap-2">
+				<div class="flex flex-col gap-2">
 					<label for="darkFlavor">Dark Flavor</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="darkFlavor"
-						name="darkFlavor"
-						id="darkFlavor"
-					>
+					<select class="border border-surface0 border-rounded bg-base p2" v-model="darkFlavor" name="darkFlavor"
+						id="darkFlavor">
 						<option v-for="flavor in FLAVORS">
 							{{ flavor }}
 						</option>
 					</select>
 				</div>
-				<div flex="~ col gap-2">
+				<div class="flex flex-col gap-2">
 					<label for="accentColor">Accent Color</label>
-					<select
-						border="~ surface0 rounded"
-						bg-base
-						p2
-						v-model="accentColor"
-						name="accentColor"
-						id="accentColor"
-					>
+					<select class="border border-surface0 border-rounded bg-base p2" v-model="accentColor"
+						name="accentColor" id="accentColor">
 						<option v-for="accent in ACCENTS">
 							{{ accent }}
 						</option>
@@ -247,16 +201,8 @@ if (import.meta.hot) {
 				</div>
 			</div>
 			<button
-				border-rounded
-				flex="~ row gap-2 self-center md:self-end"
-				bg-green
-				text-base
-				p2
-				justify-center
-				items-center
-				title="Download"
-				@click="download()"
-			>
+				class="border-rounded flex flex-row gap-2 self-center md:self-end bg-green text-base p2 justify-center items-center"
+				title="Download" @click="download()">
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'"></span>
 				<div v-if="downloaded" i-carbon-checkmark />
 				<div v-else i-carbon-download />
