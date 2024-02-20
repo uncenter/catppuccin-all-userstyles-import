@@ -19,6 +19,8 @@ const ACCENTS = [
 ];
 
 const isDark = usePreferredDark();
+const isMediumScreen = useMediaQuery('(min-width: 1024px)');
+
 let mode = useColorMode({
 	attribute: 'theme',
 	modes: Object.fromEntries(
@@ -157,7 +159,10 @@ if (import.meta.hot) {
 <template>
 	<div class="h-100vh w-full flex flex-col px4 pt4 text-lg">
 		<header class="flex justify-between">
-			<h1 class="text-3xl">Catppuccin All Userstyles Import Generator</h1>
+			<h1 class="text-3xl" v-text="isMediumScreen
+					? 'Catppuccin All Userstyles Import Generator'
+					: 'CTP.AUI Generator'
+				"></h1>
 			<div class="flex flex-row gap-2 h-[min-content]">
 				<a class="border border-surface0 border-rounded flex h-auto p2 hover:bg-mantle"
 					aria-label="GitHub repository" href="https://github.com/uncenter/catppuccin-all-userstyles-import"
@@ -170,7 +175,7 @@ if (import.meta.hot) {
 				</button>
 			</div>
 		</header>
-		<div class="flex flex-col md:flex-row gap-6 justify-center items-center p4 mt-auto mb-[60vh]">
+		<div class="flex flex-col md:flex-row gap-6 justify-center items-center p8">
 			<div class="flex flex-col md:flex-row gap-2">
 				<div class="flex flex-col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
