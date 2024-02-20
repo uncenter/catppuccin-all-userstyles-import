@@ -162,7 +162,7 @@ if (import.meta.hot) {
 				<a class="border border-surface0 border-rounded flex h-auto p2 hover:bg-mantle"
 					aria-label="GitHub repository" href="https://github.com/uncenter/catppuccin-all-userstyles-import"
 					target="_blank">
-					<div self-center i-carbon-logo-github />
+					<div class="self-center i-carbon-logo-github" />
 				</a>
 				<button class="border border-surface0 border-rounded flex p2 hover:bg-mantle"
 					:aria-label="'Toggle theme to ' + state" @click="next()">
@@ -204,8 +204,7 @@ if (import.meta.hot) {
 				class="border-rounded flex flex-row gap-2 self-center md:self-end bg-green text-base p2 justify-center items-center"
 				title="Download" @click="download()">
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'"></span>
-				<div v-if="downloaded" i-carbon-checkmark />
-				<div v-else i-carbon-download />
+				<div :class="downloaded ? 'i-carbon-checkmark' : 'i-carbon-download'" />
 			</button>
 		</div>
 	</div>
