@@ -3,7 +3,6 @@ import {
 	presetAttributify,
 	presetIcons,
 	presetUno,
-	presetWebFonts,
 	transformerDirectives,
 } from 'unocss';
 
@@ -32,8 +31,8 @@ export default defineConfig({
 :root${CTP_SELECTOR(flavor)} {
     ${dark ? 'color-scheme: dark;' : 'color-scheme: light;'}
     ${Object.entries(colors)
-			.map(([name, { hex }]) => `--ctp-${name}: ${hex};`)
-			.join('\n')};
+								.map(([name, { hex }]) => `--ctp-${name}: ${hex};`)
+								.join('\n')};
 }`,
 					)
 					.join('\n');
@@ -46,13 +45,6 @@ export default defineConfig({
 		presetIcons({
 			scale: 1.2,
 			warn: true,
-		}),
-		presetWebFonts({
-			fonts: {
-				sans: 'DM Sans',
-				serif: 'DM Serif Display',
-				mono: 'DM Mono',
-			},
 		}),
 	],
 	transformers: [transformerDirectives()],
