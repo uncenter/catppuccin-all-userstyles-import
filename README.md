@@ -1,6 +1,6 @@
 # Catppuccin All Userstyles Import Generator
 
-Generate a customized all userstyles import file from catppuccin/userstyles.
+Generate a customized "all userstyles" import file from [catppuccin/userstyles](https://github.com/catppuccin/userstyles).
 
 ## Development
 
