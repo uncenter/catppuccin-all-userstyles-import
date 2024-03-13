@@ -1,44 +1,34 @@
 <script setup lang="ts">
-import { get, set } from '@vueuse/core';
+import type { AccentName, FlavorName } from '@catppuccin/palette';
 
-const FLAVORS = ['Latte', 'Frappe', 'Macchiato', 'Mocha'];
-const ACCENTS = [
-	'Rosewater',
-	'Flamingo',
-	'Pink',
-	'Mauve',
-	'Red',
-	'Maroon',
-	'Peach',
-	'Yellow',
-	'Green',
-	'Teal',
-	'Blue',
-	'Sapphire',
-	'Sky',
-	'Lavender',
-	'Gray',
-];
+import { get, set } from '@vueuse/core';
+import { flavorEntries, flavors } from '@catppuccin/palette';
+
+const accentEntries = flavors.latte.colorEntries.filter(
+	([_, { accent }]) => accent,
+);
 
 const isDark = usePreferredDark();
 const isMediumScreen = useMediaQuery('(min-width: 1024px)');
 
-const mode = useColorMode({
+const mode = useColorMode<FlavorName>({
 	attribute: 'theme',
 	modes: Object.fromEntries(
-		FLAVORS.map((flavor) => [flavor.toLowerCase(), flavor.toLowerCase()]),
+		Object.keys(flavors).map((flavor) => [flavor, flavor]),
 	),
 	initialValue: isDark ? 'mocha' : 'latte',
 });
-const { state, next } = useCycleList(
-	FLAVORS.map((flavor) => flavor.toLowerCase()),
-	{ initialValue: mode },
+const { state, next } = useCycleList<FlavorName>(
+	Object.keys(flavors) as FlavorName[],
+	{
+		initialValue: mode as Ref<FlavorName>,
+	},
 );
 watchEffect(() => set(mode, get(state)));
 
-const darkFlavor = useStorage('darkFlavor', 'Mocha');
-const lightFlavor = useStorage('lightFlavor', 'Latte');
-const accentColor = useStorage('accentColor', 'Sapphire');
+const darkFlavor = useStorage<FlavorName>('darkFlavor', 'mocha');
+const lightFlavor = useStorage<FlavorName>('lightFlavor', 'latte');
+const accentColor = useStorage<AccentName>('accentColor', 'sapphire');
 
 let original: null | UserstylesExport = null;
 const output = ref();
@@ -54,15 +44,15 @@ function generateImportFile() {
 				if (i === 0) return userstyle;
 				if (userstyle.usercssData.vars.accentColor)
 					userstyle.usercssData.vars.accentColor.value =
-						get(accentColor).toLowerCase();
+						get(accentColor);
 
 				if (userstyle.usercssData.vars.darkFlavor)
 					userstyle.usercssData.vars.darkFlavor.value =
-						get(darkFlavor).toLowerCase();
+						get(darkFlavor);
 
 				if (userstyle.usercssData.vars.lightFlavor)
 					userstyle.usercssData.vars.lightFlavor.value =
-						get(lightFlavor).toLowerCase();
+						get(lightFlavor);
 
 				return userstyle;
 			}),
@@ -131,10 +121,10 @@ if (import.meta.hot) {
 				</a>
 				<button
 					class="border border-surface0 border-rounded flex p2 hover:bg-mantle"
-					:aria-label="`Toggle theme to ${state}`"
+					:aria-label="`Toggle theme to ${flavors[state].name}`"
 					@click="next()"
 				>
-					<span class="capitalize">{{ state }}</span>
+					<span class="capitalize">{{ flavors[state].name }}</span>
 				</button>
 			</div>
 		</header>
@@ -150,8 +140,11 @@ if (import.meta.hot) {
 						class="border border-surface0 border-rounded bg-base p2"
 						name="lightFlavor"
 					>
-						<option v-for="flavor in FLAVORS">
-							{{ flavor }}
+						<option
+							v-for="[flavor, { name }] in flavorEntries"
+							:value="flavor"
+						>
+							{{ name }}
 						</option>
 					</select>
 				</div>
@@ -163,8 +156,11 @@ if (import.meta.hot) {
 						class="border border-surface0 border-rounded bg-base p2"
 						name="darkFlavor"
 					>
-						<option v-for="flavor in FLAVORS">
-							{{ flavor }}
+						<option
+							v-for="[flavor, { name }] in flavorEntries"
+							:value="flavor"
+						>
+							{{ name }}
 						</option>
 					</select>
 				</div>
@@ -176,8 +172,11 @@ if (import.meta.hot) {
 						class="border border-surface0 border-rounded bg-base p2"
 						name="accentColor"
 					>
-						<option v-for="accent in ACCENTS">
-							{{ accent }}
+						<option
+							v-for="[color, { name }] in accentEntries"
+							:value="color"
+						>
+							{{ name }}
 						</option>
 					</select>
 				</div>
