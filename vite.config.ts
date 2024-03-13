@@ -16,7 +16,7 @@ export default defineConfig({
 			vueTemplate: true,
 		}),
 
-		// https://github.com/antfu/unocss
+		// https://github.com/unocss/unocss
 		UnoCSS(),
 	],
 });

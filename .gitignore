@@ -1,5 +1,7 @@
 node_modules/
 dist/
-**.d.ts
+
+auto-imports.d.ts
 
 .DS_Store
+Thumbs.db
