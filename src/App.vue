@@ -28,7 +28,7 @@ watchEffect(() => set(mode, get(state)));
 
 const darkFlavor = useStorage<FlavorName>('darkFlavor', 'mocha');
 const lightFlavor = useStorage<FlavorName>('lightFlavor', 'latte');
-const accentColor = useStorage<AccentName>('accentColor', 'sapphire');
+const accentColor = useStorage<AccentName>('accentColor', 'mauve');
 
 let original: null | UserstylesExport = null;
 const output = ref();
