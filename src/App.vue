@@ -154,16 +154,13 @@ function download() {
 				</div>
 			</div>
 			<button
-				class="border-rounded flex flex-row gap-2 self-center md:self-end bg-green text-base p2 justify-center items-center"
+				class="border-rounded flex flex-row gap-2 self-center md:self-end bg-green text-base p2 justify-center items-center group"
 				title="Download"
 				@click="download()"
 			>
 				<span v-text="downloaded ? 'Downloaded!' : 'Download'" />
-				<div
-					:class="
-						downloaded ? 'i-carbon-checkmark' : 'i-carbon-download'
-					"
-				/>
+				<i v-if="downloaded" class="i-carbon-checkmark" />
+				<i v-else class="i-carbon-download group-hover:animate-tada" />
 			</button>
 		</div>
 	</div>
