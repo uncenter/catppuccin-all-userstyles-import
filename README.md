@@ -1,13 +1,14 @@
-# Catppuccin All Userstyles Import Generator
+# Catppuccin Userstyles Customizer
 
-Generate a customized "all userstyles" import file from [catppuccin/userstyles](https://github.com/catppuccin/userstyles).
+Customize your preferred flavors and accent color for [catppuccin/userstyles](https://github.com/catppuccin/userstyles). Generates a JSON file for installing your customized userstyles in Stylus.
 
 ## Development
 
 ```
-git clone https://github.com/uncenter/catppuccin-all-userstyles-import.git
-cd catppuccin-all-userstyles-import
+git clone https://github.com/uncenter/catppuccin-userstyles-customizer.git
+cd catppuccin-userstyles-customizer
 pnpm install
+pnpm run update
 pnpm dev
 ```
 
