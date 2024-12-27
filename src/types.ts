@@ -22,15 +22,15 @@ type UsercssData = {
 	author: string;
 	license: string;
 	preprocessor: string;
-	vars: Vars;
+	vars: Record<VariableKey, Variable>;
 };
 
-type Vars = {
-	flavor?: Variable;
-	accentColor?: Variable;
-	lightFlavor?: Variable;
-	darkFlavor?: Variable;
-};
+type VariableKey =
+	| 'flavor'
+	| 'accentColor'
+	| 'lightFlavor'
+	| 'darkFlavor'
+	| (string & {});
 
 type Variable = {
 	type: string;

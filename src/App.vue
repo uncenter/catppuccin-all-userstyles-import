@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AccentName, FlavorName } from '@catppuccin/palette';
 
+import rawUserstylesImport from '../import.json' with { type: 'json' };
+
 import { get, set } from '@vueuse/core';
 import { flavorEntries, flavors } from '@catppuccin/palette';
 
@@ -30,38 +32,37 @@ const darkFlavor = useStorage<FlavorName>('darkFlavor', 'mocha');
 const lightFlavor = useStorage<FlavorName>('lightFlavor', 'latte');
 const accentColor = useStorage<AccentName>('accentColor', 'mauve');
 
-let original: null | UserstylesExport = null;
-const output = ref();
+const userstylesImport = ref<UserstylesExport>(
+	rawUserstylesImport as UserstylesExport,
+);
+
+const customUserstylesImport = computed(() => {
+	return JSON.stringify(
+		get(userstylesImport).map((userstyle, i) => {
+			// First "userstyle" holds Stylus settings.
+			if (i === 0) return userstyle;
+
+			let vars = userstyle.usercssData.vars;
+
+			vars.accentColor.value = get(accentColor);
+			vars.darkFlavor.value = get(darkFlavor);
+			vars.lightFlavor.value = get(lightFlavor);
+
+			return {
+				...userstyle,
+				usercssData: {
+					...userstyle.usercssData,
+					vars,
+				},
+			};
+		}),
+	);
+});
 
 const downloaded = ref(false);
 
-function generateImportFile() {
-	if (!original) return;
-	set(
-		output,
-		JSON.stringify(
-			original.map((userstyle, i) => {
-				if (i === 0) return userstyle;
-				if (userstyle.usercssData.vars.accentColor)
-					userstyle.usercssData.vars.accentColor.value =
-						get(accentColor);
-
-				if (userstyle.usercssData.vars.darkFlavor)
-					userstyle.usercssData.vars.darkFlavor.value =
-						get(darkFlavor);
-
-				if (userstyle.usercssData.vars.lightFlavor)
-					userstyle.usercssData.vars.lightFlavor.value =
-						get(lightFlavor);
-
-				return userstyle;
-			}),
-		),
-	);
-}
-
 function download() {
-	const blob = new Blob([get(output)], {
+	const blob = new Blob([get(customUserstylesImport)], {
 		type: 'application/json',
 	});
 	const href = URL.createObjectURL(blob);
@@ -74,28 +75,6 @@ function download() {
 	setTimeout(() => {
 		set(downloaded, false);
 	}, 1000);
-}
-
-onMounted(async () => {
-	original = (await import('../import.json').then(
-		(m) => m.default,
-	)) as UserstylesExport;
-	generateImportFile();
-});
-
-watch(
-	[lightFlavor, darkFlavor, accentColor],
-	(n, o) => {
-		const changed = o !== n;
-		if (changed) generateImportFile();
-	},
-	{ immediate: true },
-);
-
-if (import.meta.hot) {
-	import.meta.hot.accept(() => {
-		generateImportFile();
-	});
 }
 </script>
 
