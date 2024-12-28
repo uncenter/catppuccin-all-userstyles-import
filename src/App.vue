@@ -79,7 +79,7 @@ function download() {
 </script>
 
 <template>
-	<div class="h-100vh w-full flex flex-col px4 pt4 text-lg">
+	<div class="h-100vh w-full flex flex-col px4 pt4 text-lg gap-24">
 		<header class="flex justify-between">
 			<h1 class="text-3xl">Catppuccin Userstyles Customizer</h1>
 			<div class="flex flex-row gap-2 h-[min-content]">
@@ -100,10 +100,8 @@ function download() {
 				</button>
 			</div>
 		</header>
-		<div
-			class="flex flex-col md:flex-row gap-6 justify-center items-center p8"
-		>
-			<div class="flex flex-col md:flex-row gap-2">
+		<main class="flex flex-col gap-8 md:gap-4 ml-auto mr-auto">
+			<div class="flex flex-col md:flex-row gap-2 md:gap-8">
 				<div class="flex flex-col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
 					<select
@@ -154,7 +152,10 @@ function download() {
 				</div>
 			</div>
 			<button
-				class="border-rounded flex flex-row gap-2 self-center md:self-end bg-green text-base p2 justify-center items-center group"
+				class="border-rounded flex flex-row gap-2 bg-mauve text-base p-2 justify-center items-center hover:scale-105 transition-transform group"
+				:style="{
+					backgroundColor: `var(--ctp-${get(accentColor)})`,
+				}"
 				title="Download"
 				@click="download()"
 			>
@@ -162,7 +163,7 @@ function download() {
 				<i v-if="downloaded" class="i-carbon-checkmark" />
 				<i v-else class="i-carbon-download group-hover:animate-tada" />
 			</button>
-		</div>
+		</main>
 	</div>
 </template>
 
