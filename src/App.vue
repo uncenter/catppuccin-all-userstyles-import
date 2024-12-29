@@ -214,20 +214,11 @@ function download() {
 							<h2 class="text-xl">
 								{{ userstyle.name.replace(' Catppuccin', ' ') }}
 							</h2>
-							<button class="flex">
-								<i
-									:class="{
-										'i-carbon-checkmark hover:text-red hover:i-carbon-close':
-											selectedUserstyles[userstyle.name],
-										'i-carbon-add hover:text-green':
-											!selectedUserstyles[userstyle.name],
-									}"
-									@click="
-										selectedUserstyles[userstyle.name] =
-											!selectedUserstyles[userstyle.name]
-									"
-								/>
-							</button>
+							<input
+								type="checkbox"
+								v-model="selectedUserstyles[userstyle.name]"
+								class="size-5"
+							/>
 						</div>
 					</template>
 				</div>
