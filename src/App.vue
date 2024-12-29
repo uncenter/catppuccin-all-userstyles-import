@@ -11,7 +11,6 @@ const accentEntries = flavors.latte.colorEntries.filter(
 );
 
 const isDark = usePreferredDark();
-const isMediumScreen = useMediaQuery('(min-width: 1024px)');
 
 const mode = useColorMode<FlavorName>({
 	attribute: 'theme',
@@ -32,37 +31,52 @@ const darkFlavor = useStorage<FlavorName>('darkFlavor', 'mocha');
 const lightFlavor = useStorage<FlavorName>('lightFlavor', 'latte');
 const accentColor = useStorage<AccentName>('accentColor', 'mauve');
 
-const userstylesImport = ref<UserstylesExport>(
-	rawUserstylesImport as UserstylesExport,
-);
+const userstyles = rawUserstylesImport.slice(1) as UserstyleEntry[];
 
-const customUserstylesImport = computed(() => {
-	return JSON.stringify(
-		get(userstylesImport).map((userstyle, i) => {
-			// First "userstyle" holds Stylus settings.
-			if (i === 0) return userstyle;
-
-			let vars = userstyle.usercssData.vars;
-
-			vars.accentColor.value = get(accentColor);
-			vars.darkFlavor.value = get(darkFlavor);
-			vars.lightFlavor.value = get(lightFlavor);
+function createCustomUserstylesImport() {
+	const customSelectedUserstyles = userstyles
+		.filter(({ name }) => get(selectedUserstyles)[name])
+		.map((userstyle) => {
+			const updatedVars = {
+				...userstyle.usercssData.vars,
+				accentColor: { value: get(accentColor) },
+				darkFlavor: { value: get(darkFlavor) },
+				lightFlavor: { value: get(lightFlavor) },
+			};
 
 			return {
 				...userstyle,
 				usercssData: {
 					...userstyle.usercssData,
-					vars,
+					vars: updatedVars,
 				},
 			};
-		}),
+		});
+
+	return JSON.stringify([
+		rawUserstylesImport[0],
+		...customSelectedUserstyles,
+	]);
+}
+
+const searchText = ref('');
+const selectedUserstyles = useStorage<Record<string, boolean>>(
+	'selectedUserstyles',
+	getAllSelected(),
+);
+function getAllSelected() {
+	return userstyles.reduce((acc, { name }) => ({ ...acc, [name]: true }), {});
+}
+function getFilteredUserstyles() {
+	return userstyles.filter(({ name }) =>
+		name.toLowerCase().includes(searchText.value.toLowerCase()),
 	);
-});
+}
 
 const downloaded = ref(false);
 
 function download() {
-	const blob = new Blob([get(customUserstylesImport)], {
+	const blob = new Blob([createCustomUserstylesImport()], {
 		type: 'application/json',
 	});
 	const href = URL.createObjectURL(blob);
@@ -100,8 +114,10 @@ function download() {
 				</button>
 			</div>
 		</header>
-		<main class="flex flex-col gap-8 md:gap-4 ml-auto mr-auto">
-			<div class="flex flex-col md:flex-row gap-2 md:gap-8">
+		<main class="flex flex-col gap-8 md:gap-4">
+			<div
+				class="flex flex-wrap justify-center md:flex-row gap-4 sm:gap-6 self-center mx-auto"
+			>
 				<div class="flex flex-col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
 					<select
@@ -152,7 +168,7 @@ function download() {
 				</div>
 			</div>
 			<button
-				class="border-rounded flex flex-row gap-2 bg-mauve text-base p-2 justify-center items-center hover:scale-105 transition-transform group"
+				class="border-rounded mx-auto flex flex-row gap-2 bg-mauve text-base py-2 px-4 justify-center items-center hover:scale-105 transition-transform group"
 				:style="{
 					backgroundColor: `var(--ctp-${get(accentColor)})`,
 				}"
@@ -163,6 +179,52 @@ function download() {
 				<i v-if="downloaded" class="i-carbon-checkmark" />
 				<i v-else class="i-carbon-download group-hover:animate-tada" />
 			</button>
+			<div class="mx-auto flex flex-col gap-2 w-full lg:w-3/4">
+				<div class="flex flex-col sm:flex-row gap-2 self-center my-4">
+					<input
+						type="text"
+						placeholder="Search"
+						v-model="searchText"
+						class="border border-surface0 border-rounded bg-base p2"
+					/>
+					<div class="flex flex-row gap-2">
+						<button
+							class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
+							@click="selectedUserstyles = {}"
+						>
+							Deselect All
+						</button>
+						<button
+							class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
+							@click="selectedUserstyles = getAllSelected()"
+						>
+							Select All
+						</button>
+					</div>
+				</div>
+				<div
+					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+				>
+					<template
+						v-for="userstyle in userstyles"
+						:key="userstyle.name"
+					>
+						<div
+							v-if="getFilteredUserstyles().includes(userstyle)"
+							class="flex flex-row gap-2 border border-surface0 border-rounded p2 items-center justify-between"
+						>
+							<h2 class="text-xl">
+								{{ userstyle.name.replace(' Catppuccin', ' ') }}
+							</h2>
+							<input
+								type="checkbox"
+								v-model="selectedUserstyles[userstyle.name]"
+								class="size-5"
+							/>
+						</div>
+					</template>
+				</div>
+			</div>
 		</main>
 	</div>
 </template>
