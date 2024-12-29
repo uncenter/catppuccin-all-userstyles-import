@@ -33,9 +33,9 @@ const accentColor = useStorage<AccentName>('accentColor', 'mauve');
 
 const userstyles = rawUserstylesImport.slice(1) as UserstyleEntry[];
 
-const customUserstylesImport = computed(() => {
+function createCustomUserstylesImport() {
 	const customSelectedUserstyles = userstyles
-		.filter((_, i) => get(selectedUserstyles)[i])
+		.filter(({ name }) => get(selectedUserstyles)[name])
 		.map((userstyle) => {
 			const updatedVars = {
 				...userstyle.usercssData.vars,
@@ -57,26 +57,26 @@ const customUserstylesImport = computed(() => {
 		rawUserstylesImport[0],
 		...customSelectedUserstyles,
 	]);
-});
+}
 
 const searchText = ref('');
-const selectedUserstyles = useStorage<boolean[]>(
+const selectedUserstyles = useStorage<Record<string, boolean>>(
 	'selectedUserstyles',
-	userstyles.map(() => true),
+	getAllSelected(),
 );
-const filteredUserstyles = computed(() =>
-	userstyles.reduce<number[]>((indices, { name }, i) => {
-		if (name.toLowerCase().includes(searchText.value.toLowerCase())) {
-			indices.push(i);
-		}
-		return indices;
-	}, []),
-);
+function getAllSelected() {
+	return userstyles.reduce((acc, { name }) => ({ ...acc, [name]: true }), {});
+}
+function getFilteredUserstyles() {
+	return userstyles.filter(({ name }) =>
+		name.toLowerCase().includes(searchText.value.toLowerCase()),
+	);
+}
 
 const downloaded = ref(false);
 
 function download() {
-	const blob = new Blob([get(customUserstylesImport)], {
+	const blob = new Blob([createCustomUserstylesImport()], {
 		type: 'application/json',
 	});
 	const href = URL.createObjectURL(blob);
@@ -189,13 +189,13 @@ function download() {
 					/>
 					<button
 						class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
-						@click="selectedUserstyles.fill(false)"
+						@click="selectedUserstyles = {}"
 					>
 						Deselect All
 					</button>
 					<button
 						class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
-						@click="selectedUserstyles.fill(true)"
+						@click="selectedUserstyles = getAllSelected()"
 					>
 						Select All
 					</button>
@@ -204,32 +204,28 @@ function download() {
 					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
 				>
 					<template
-						v-for="(userstyle, i) in userstyles"
+						v-for="userstyle in userstyles"
 						:key="userstyle.name"
 					>
 						<div
-							v-if="filteredUserstyles.includes(i)"
+							v-if="getFilteredUserstyles().includes(userstyle)"
 							class="flex flex-row gap-2 border border-surface0 border-rounded p2 items-center justify-between"
 						>
 							<h2 class="text-xl">
 								{{ userstyle.name.replace(' Catppuccin', ' ') }}
 							</h2>
-							<button
-								class="flex"
-								@click="
-									(event) => {
-										selectedUserstyles[i] =
-											!selectedUserstyles[i];
-									}
-								"
-							>
+							<button class="flex">
 								<i
-									v-if="!selectedUserstyles[i]"
-									class="i-carbon-add hover:text-green"
-								/>
-								<i
-									v-else
-									class="i-carbon-checkmark hover:text-red hover:i-carbon-close"
+									:class="{
+										'i-carbon-checkmark hover:text-red hover:i-carbon-close':
+											selectedUserstyles[userstyle.name],
+										'i-carbon-add hover:text-green':
+											!selectedUserstyles[userstyle.name],
+									}"
+									@click="
+										selectedUserstyles[userstyle.name] =
+											!selectedUserstyles[userstyle.name]
+									"
 								/>
 							</button>
 						</div>
