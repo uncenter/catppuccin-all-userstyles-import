@@ -1,14 +1,18 @@
-type UserstylesExport = Userstyle[];
+type UserstylesExport = [SettingsEntry, ...UserstyleEntry[]];
 
-type Userstyle = {
+type UserstyleEntry = {
 	enabled: boolean;
-	name?: string;
-	description?: string;
-	author?: string;
-	updateUrl?: string;
+	name: string;
+	description: string;
+	author: string;
+	updateUrl: string;
 	usercssData: UsercssData;
 	sourceCode: string;
-	settings?: Settings;
+	originalDigest: string;
+};
+
+type SettingsEntry = {
+	settings: Settings;
 };
 
 type UsercssData = {
