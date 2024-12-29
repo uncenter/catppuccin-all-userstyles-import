@@ -116,7 +116,7 @@ function download() {
 		</header>
 		<main class="flex flex-col gap-8 md:gap-4">
 			<div
-				class="flex flex-col md:flex-row gap-2 md:gap-8 self-center mx-auto"
+				class="flex flex-wrap justify-center md:flex-row gap-4 sm:gap-6 self-center mx-auto"
 			>
 				<div class="flex flex-col gap-2">
 					<label for="lightFlavor">Light Flavor</label>
@@ -179,26 +179,28 @@ function download() {
 				<i v-if="downloaded" class="i-carbon-checkmark" />
 				<i v-else class="i-carbon-download group-hover:animate-tada" />
 			</button>
-			<div class="mx-auto flex flex-col gap-2 my-4 w-full lg:w-3/4">
-				<div class="flex flex-row gap-2 self-center">
+			<div class="mx-auto flex flex-col gap-2 w-full lg:w-3/4">
+				<div class="flex flex-col sm:flex-row gap-2 self-center my-4">
 					<input
 						type="text"
 						placeholder="Search"
 						v-model="searchText"
 						class="border border-surface0 border-rounded bg-base p2"
 					/>
-					<button
-						class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
-						@click="selectedUserstyles = {}"
-					>
-						Deselect All
-					</button>
-					<button
-						class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
-						@click="selectedUserstyles = getAllSelected()"
-					>
-						Select All
-					</button>
+					<div class="flex flex-row gap-2">
+						<button
+							class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
+							@click="selectedUserstyles = {}"
+						>
+							Deselect All
+						</button>
+						<button
+							class="border-rounded flex p2 bg-surface0 hover:bg-surface1"
+							@click="selectedUserstyles = getAllSelected()"
+						>
+							Select All
+						</button>
+					</div>
 				</div>
 				<div
 					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
